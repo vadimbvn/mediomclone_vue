@@ -1,5 +1,5 @@
 import authApi from '@/api/auth'
-import { setItem } from '@/helpers/persistanceStorage'
+import {setItem} from '@/helpers/persistanceStorage'
 
 const state = {
   isSubmitting: false,
@@ -15,12 +15,30 @@ export const mutationTypes = {
 
   loginStart: '[auth] loginStart',
   loginSuccess: '[auth] loginSuccrss',
-  loginFailure: '[auth] loginFailure'
+  loginFailure: '[auth] loginFailure',
 }
 
 export const actionTypes = {
   register: '[auth] register',
-  login: '[auth] login'
+  login: '[auth] login',
+}
+
+export const getterTypes = {
+  currentUser: '[auth] currentUser',
+  isLoggedIn: '[auth] isLoggedIn',
+  isAnonimus: '[auth] isAnonimus',
+}
+
+const getters = {
+  [getterTypes.currentUser]: (state) => {
+    return state.currentUser
+  },
+  [getterTypes.isLoggedIn]: (state) => {
+    return Boolean(state.isLoggedIn)
+  },
+  [getterTypes.isAnonimus]: (state) => {
+    return state.isLoggedIn === false
+  },
 }
 
 const mutations = {
@@ -49,7 +67,7 @@ const mutations = {
   [mutationTypes.loginFailure](state, payload) {
     state.isSubmitting = false
     state.validationErrors = payload
-  }
+  },
 }
 
 const actions = {
@@ -64,7 +82,10 @@ const actions = {
           resolve(response.data.user)
         })
         .catch((result) => {
-          context.commit(mutationTypes.registerFailure, result.response.data.errors)
+          context.commit(
+            mutationTypes.registerFailure,
+            result.response.data.errors
+          )
         })
     })
   },
@@ -79,7 +100,10 @@ const actions = {
           resolve(response.data.user)
         })
         .catch((result) => {
-          context.commit(mutationTypes.loginFailure, result.response.data.errors)
+          context.commit(
+            mutationTypes.loginFailure,
+            result.response.data.errors
+          )
         })
     })
   },
@@ -89,4 +113,5 @@ export default {
   state,
   mutations,
   actions,
+  getters,
 }
