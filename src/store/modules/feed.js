@@ -1,4 +1,4 @@
-import FeedApi from '@/api/feed'
+import feedApi from '@/api/feed'
 
 const state = {
   data: null,
@@ -34,7 +34,8 @@ const actions = {
   [actionTypes.getFeed](context, {apiUrl}) {
     return new Promise((resolve) => {
       context.commit(mutationTypes.getFeedStart)
-      FeedApi.getFeed(apiUrl)
+      feedApi
+        .getFeed(apiUrl)
         .then((responce) => {
           context.commit(mutationTypes.getFeedSuccess, responce.data)
           resolve(responce.data)
