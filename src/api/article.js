@@ -1,8 +1,8 @@
 import axios from '@/api/axios'
 
-const getArticle = (sluq) => {
+const getArticle = (slug) => {
   return axios
-    .get(`/articles/${sluq}`)
+    .get(`/articles/${slug}`)
     .then((response) => response.data.article)
 }
 
